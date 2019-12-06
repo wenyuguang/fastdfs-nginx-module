@@ -56,7 +56,7 @@ static ngx_command_t  ngx_http_fastdfs_commands[] = {
       ngx_null_command
 };
 
-static ngx_http_module_t  ngx_http_fastdfs_module_ctx = {
+static ngx_http_module_t  nginx_waytung_http_zdfs_module_ctx = {
     NULL,                                  /* preconfiguration */
     NULL,                                     /* postconfiguration */
 
@@ -71,9 +71,9 @@ static ngx_http_module_t  ngx_http_fastdfs_module_ctx = {
 };
 
 /* hook */
-ngx_module_t  ngx_http_fastdfs_module = {
+ngx_module_t  nginx_waytung_http_zdfs_module = {
     NGX_MODULE_V1,
-    &ngx_http_fastdfs_module_ctx,              /* module context */
+    &nginx_waytung_http_zdfs_module_ctx,              /* module context */
     ngx_http_fastdfs_commands,                 /* module directives */
     NGX_HTTP_MODULE,                       /* module type */
     NULL,                                  /* init master */
@@ -558,7 +558,7 @@ static ngx_int_t ngx_http_fastdfs_proxy_reinit_request(ngx_http_request_t *r)
 {
     ngx_http_fastdfs_proxy_ctx_t  *ctx;
 
-    ctx = ngx_http_get_module_ctx(r, ngx_http_fastdfs_module);
+    ctx = ngx_http_get_module_ctx(r, nginx_waytung_http_zdfs_module);
 
     if (ctx == NULL) {
         return NGX_OK;
@@ -599,7 +599,7 @@ static ngx_int_t ngx_http_fastdfs_proxy_process_status_line(ngx_http_request_t *
     ngx_http_upstream_t   *u;
     ngx_http_fastdfs_proxy_ctx_t  *ctx;
 
-    ctx = ngx_http_get_module_ctx(r, ngx_http_fastdfs_module);
+    ctx = ngx_http_get_module_ctx(r, nginx_waytung_http_zdfs_module);
 
     if (ctx == NULL) {
         return NGX_ERROR;
@@ -792,9 +792,9 @@ static int ngx_http_fastdfs_proxy_handler(void *arg, \
 		return NGX_ERROR;
 	}
 
-	ngx_http_set_ctx(r, ctx, ngx_http_fastdfs_module);
+	ngx_http_set_ctx(r, ctx, nginx_waytung_http_zdfs_module);
 
-	plcf = ngx_http_get_module_loc_conf(r, ngx_http_fastdfs_module);
+	plcf = ngx_http_get_module_loc_conf(r, nginx_waytung_http_zdfs_module);
 
 	u = r->upstream;
 
@@ -817,7 +817,7 @@ static int ngx_http_fastdfs_proxy_handler(void *arg, \
 	u->resolved->port = (in_port_t)ntohs(((struct sockaddr_in *)r-> \
 				connection->local_sockaddr)->sin_port);
 
-	u->output.tag = (ngx_buf_tag_t) &ngx_http_fastdfs_module;
+	u->output.tag = (ngx_buf_tag_t) &nginx_waytung_http_zdfs_module;
 
 	u->create_request = ngx_http_fastdfs_proxy_create_request;
 	u->reinit_request = ngx_http_fastdfs_proxy_reinit_request;

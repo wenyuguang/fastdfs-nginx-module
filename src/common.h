@@ -146,7 +146,7 @@ int fdfs_http_request_handler(struct fdfs_http_context *pContext);
 *       buff_size the buffer size
 * return: 0 success, !=0 fail, return the error code
 */
-//int fdfs_format_http_datetime(time_t t, char *buff, const int buff_size);
+//int zdfs_format_http_datetime(time_t t, char *buff, const int buff_size);
 
 /**
 * parse range parameter

@@ -46,7 +46,7 @@ static ngx_str_t  ngx_http_proxy_hide_headers[] = {
 
 /* Commands */
 static ngx_command_t  ngx_http_fastdfs_commands[] = {
-    { ngx_string("ngx_fastdfs_module"),
+    { ngx_string("waytung_zdfs_module"),
       NGX_HTTP_LOC_CONF|NGX_CONF_NOARGS,
       ngx_http_fastdfs_set,
       NGX_HTTP_LOC_CONF_OFFSET,

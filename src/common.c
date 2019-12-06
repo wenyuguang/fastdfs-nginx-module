@@ -56,10 +56,10 @@ static GroupStorePaths *group_store_paths = NULL;   //for multi groups
 static FDFSHTTPParams g_http_params;
 static int storage_sync_file_max_delay = 24 * 3600;
 
-static int fdfs_get_params_from_tracker();
-static int fdfs_format_http_datetime(time_t t, char *buff, const int buff_size);
+static int zdfs_get_params_from_tracker();
+static int zdfs_format_http_datetime(time_t t, char *buff, const int buff_size);
 
-static int fdfs_strtoll(const char *s, int64_t *value)
+static int zdfs_strtoll(const char *s, int64_t *value)
 {
 	char *end = NULL;
 	*value = strtoll(s, &end, 10);
@@ -71,7 +71,7 @@ static int fdfs_strtoll(const char *s, int64_t *value)
 	return 0;
 }
 
-static int fdfs_load_groups_store_paths(IniContext *pItemContext)
+static int zdfs_load_groups_store_paths(IniContext *pItemContext)
 {
 	char section_name[64];
 	char *pGroupName;
@@ -181,7 +181,7 @@ int fdfs_mod_init()
 			break;
 		}
 
-		if ((result=fdfs_load_groups_store_paths(&iniContext)) != 0)
+		if ((result=zdfs_load_groups_store_paths(&iniContext)) != 0)
 		{
 			break;
 		}
@@ -323,7 +323,7 @@ int fdfs_mod_init()
 	load_local_host_ip_addrs();
 	if (load_fdfs_parameters_from_tracker)
 	{
-		fdfs_get_params_from_tracker();
+		zdfs_get_params_from_tracker();
 	}
 
 	if (group_count > 0)
@@ -688,7 +688,7 @@ static int fdfs_check_and_format_range(struct fdfs_http_context *pContext,
 #define FDFS_SET_LAST_MODIFIED(response, pContext, mtime) \
 	do { \
 		response.last_modified = mtime; \
-		fdfs_format_http_datetime(response.last_modified, \
+		zdfs_format_http_datetime(response.last_modified, \
 			response.last_modified_buff, \
 			sizeof(response.last_modified_buff)); \
 		if (*pContext->if_modified_since != '\0') \
@@ -1269,7 +1269,7 @@ int fdfs_http_request_handler(struct fdfs_http_context *pContext)
 			if (pStart != NULL)
 			{
 				int64_t start;
-				if (fdfs_strtoll(pStart, &start) == 0)
+				if (zdfs_strtoll(pStart, &start) == 0)
 				{
 					char *pEnd;
 
@@ -1281,7 +1281,7 @@ int fdfs_http_request_handler(struct fdfs_http_context *pContext)
 					if (pEnd != NULL)
 					{
 						int64_t end;
-						if (fdfs_strtoll(pEnd, &end) == 0)
+						if (zdfs_strtoll(pEnd, &end) == 0)
 						{
 							pContext->ranges[0].end = end - 1;
 						}
@@ -1582,7 +1582,7 @@ int fdfs_http_request_handler(struct fdfs_http_context *pContext)
 	return HTTP_OK;
 }
 
-static int fdfs_get_params_from_tracker()
+static int zdfs_get_params_from_tracker()
 {
         IniContext iniContext;
 	int result;
@@ -1612,7 +1612,7 @@ static int fdfs_get_params_from_tracker()
         return result;
 }
 
-static int fdfs_format_http_datetime(time_t t, char *buff, const int buff_size)
+static int zdfs_format_http_datetime(time_t t, char *buff, const int buff_size)
 {
 	struct tm tm;
 	struct tm *ptm;
@@ -1634,7 +1634,7 @@ static int fdfs_parse_range(char *value, struct fdfs_http_range *range)
 
 	if (*value == '-')
 	{
-		if ((result=fdfs_strtoll(value, &(range->start))) != 0)
+		if ((result=zdfs_strtoll(value, &(range->start))) != 0)
 		{
 			return result;
 		}
@@ -1649,7 +1649,7 @@ static int fdfs_parse_range(char *value, struct fdfs_http_range *range)
 	}
 
     *pEndPos = '\0';
-	if ((result=fdfs_strtoll(value, &(range->start))) != 0)
+	if ((result=zdfs_strtoll(value, &(range->start))) != 0)
 	{
 		return result;
 	}
@@ -1661,7 +1661,7 @@ static int fdfs_parse_range(char *value, struct fdfs_http_range *range)
 	}
 	else
 	{
-		if ((result=fdfs_strtoll(pEndPos, &(range->end))) != 0)
+		if ((result=zdfs_strtoll(pEndPos, &(range->end))) != 0)
 		{
 			return result;
 		}
